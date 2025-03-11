@@ -4,8 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:video_trimmer/src/utils/trimmer_utils.dart';
 
-Uint8List kTransparentImage = Uint8List.fromList([]);
-
 class FixedThumbnailViewer extends StatelessWidget {
   /// The video file from which thumbnails are generated.
   final File videoFile;

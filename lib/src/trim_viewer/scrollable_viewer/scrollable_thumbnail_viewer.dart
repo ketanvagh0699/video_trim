@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:video_trimmer/src/trim_viewer/fixed_viewer/fixed_thumbnail_viewer.dart';
 import 'package:video_trimmer/src/utils/trimmer_utils.dart';
 
 /// For showing the thumbnails generated from the video in a scrollable view,
