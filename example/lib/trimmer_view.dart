@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:example/preview.dart';
 import 'package:flutter/material.dart';
 import 'package:video_trimmer/video_trimmer.dart';
@@ -7,7 +6,7 @@ import 'package:video_trimmer/video_trimmer.dart';
 class TrimmerView extends StatefulWidget {
   final File file;
 
-  const TrimmerView(this.file, {Key? key}) : super(key: key);
+  const TrimmerView(this.file, {super.key});
   @override
   State<TrimmerView> createState() => _TrimmerViewState();
 }
@@ -56,14 +55,8 @@ class _TrimmerViewState extends State<TrimmerView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (Navigator.of(context).userGestureInProgress) {
-          return false;
-        } else {
-          return true;
-        }
-      },
+    return PopScope(
+      canPop: !Navigator.of(context).userGestureInProgress,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -97,7 +90,7 @@ class _TrimmerViewState extends State<TrimmerView> {
                       viewerHeight: 50.0,
                       viewerWidth: MediaQuery.of(context).size.width,
                       durationStyle: DurationStyle.FORMAT_MM_SS,
-                      maxVideoLength: const Duration(seconds: 30),
+                      maxVideoLength: const Duration(seconds: 10),
                       editorProperties: TrimEditorProperties(
                         borderPaintColor: Colors.yellow,
                         borderWidth: 4,

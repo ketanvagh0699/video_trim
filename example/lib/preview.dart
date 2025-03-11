@@ -40,38 +40,15 @@ class _PreviewState extends State<Preview> {
         title: const Text("Preview"),
       ),
       body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: _controller.value.isInitialized
-                  ? VideoPlayer(_controller)
-                  : const Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.white,
-                      ),
-                    ),
-            ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  _controller.value.isPlaying
-                      ? _controller.pause()
-                      : _controller.play();
-                });
-              },
-              child: CircleAvatar(
-                radius: 33,
-                backgroundColor: Colors.black38,
-                child: Icon(
-                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                  color: Colors.white,
-                  size: 50,
+        child: AspectRatio(
+          aspectRatio: _controller.value.aspectRatio,
+          child: _controller.value.isInitialized
+              ? VideoPlayer(_controller)
+              : const Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                  ),
                 ),
-              ),
-            ),
-          ],
         ),
       ),
     );

@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'dart:async';
 import 'dart:io';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
@@ -19,9 +17,9 @@ enum TrimmerEvent { initialized }
 /// Helps in loading video from file, saving trimmed video to a file
 /// and gives video playback controls. Some of the helpful methods
 /// are:
-/// * [loadVideo()]
-/// * [saveTrimmedVideo()]
-/// * [videoPlaybackControl()]
+/// - [loadVideo()]
+/// - [saveTrimmedVideo()]
+/// - [videoPlaybackControl()]
 class Trimmer {
   // final FlutterFFmpeg _flutterFFmpeg = FFmpegKit();
 
@@ -197,7 +195,7 @@ class Trimmer {
 
     videoFolderName ??= "Trimmer";
 
-    videoFileName ??= "${videoName}_$formattedDateTime";
+    videoFileName ??= "${videoName}_trimmed:$formattedDateTime";
 
     videoFileName = videoFileName.replaceAll(' ', '_');
 
@@ -249,45 +247,22 @@ class Trimmer {
 
     command += '"$outputPath"';
 
-    // await FFmpegKit.executeAsync(command, (session) async {
-    //   final state =
-    //       FFmpegKitConfig.sessionStateToString(await session.getState());
-    //   final returnCode = await session.getReturnCode();
-
-    //   debugPrint("FFmpeg process exited with state $state and rc $returnCode");
-
-    //   if (ReturnCode.isSuccess(returnCode)) {
-    //     debugPrint("FFmpeg processing completed successfully.");
-    //     debugPrint('Video successfully saved');
-    //     onSave(outputPath);
-    //     outputPath = outputPath;
-    //   } else {
-    //     debugPrint("FFmpeg processing failed.");
-    //     debugPrint('Couldn\'t save the video');
-    //     onSave(null);
-    //   }
-    // });
-
-    await FFmpegKit.execute(
-      command,
-    ).then((session) async {
+    FFmpegKit.executeAsync(command, (session) async {
       final state =
           FFmpegKitConfig.sessionStateToString(await session.getState());
       final returnCode = await session.getReturnCode();
-      debugPrint(
-          "FFmpeg process exited with state ${session.getState()} and rc $returnCode");
+
+      debugPrint("FFmpeg process exited with state $state and rc $returnCode");
+
       if (ReturnCode.isSuccess(returnCode)) {
         debugPrint("FFmpeg processing completed successfully.");
         debugPrint('Video successfully saved');
-        outputPath = outputPath;
         onSave(outputPath);
-        return outputPath;
       } else {
         debugPrint("FFmpeg processing failed.");
         debugPrint('Couldn\'t save the video');
         onSave(null);
       }
-      return outputPath;
     });
 
     return outputPath;
