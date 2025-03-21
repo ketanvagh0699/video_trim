@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
-import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -176,7 +175,9 @@ class Trimmer {
     StorageDir? storageDir,
   }) async {
     final String videoPath = currentVideoFile!.path;
-    final String videoName = basename(videoPath).split('.')[0];
+    debugPrint("video path: $videoPath");
+    final String videoName = (videoPath).split('/').last.split('.')[0];
+    debugPrint("video name: $videoName");
 
     String command;
 
@@ -266,7 +267,7 @@ class Trimmer {
         onSave(null);
       }
     });
-
+    debugPrint("video output path: $outputPath");
     return outputPath;
   }
 
