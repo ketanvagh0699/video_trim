@@ -175,9 +175,7 @@ class Trimmer {
     StorageDir? storageDir,
   }) async {
     final String videoPath = currentVideoFile!.path;
-    debugPrint("video path: $videoPath");
     final String videoName = (videoPath).split('/').last.split('.')[0];
-    debugPrint("video name: $videoName");
 
     String command;
 
@@ -198,7 +196,7 @@ class Trimmer {
 
     videoFolderName ??= "Trimmer";
 
-    videoFileName ??= "${videoName}_trimmed:$formattedDateTime";
+    videoFileName ??= "${videoName}_$formattedDateTime";
 
     videoFileName = videoFileName.replaceAll(' ', '_');
 
@@ -250,24 +248,47 @@ class Trimmer {
 
     command += '"$outputPath"';
 
-    FFmpegKit.executeAsync(command, (session) async {
+    // await FFmpegKit.executeAsync(command, (session) async {
+    //   final state =
+    //       FFmpegKitConfig.sessionStateToString(await session.getState());
+    //   final returnCode = await session.getReturnCode();
+
+    //   debugPrint("FFmpeg process exited with state $state and rc $returnCode");
+
+    //   if (ReturnCode.isSuccess(returnCode)) {
+    //     debugPrint("FFmpeg processing completed successfully.");
+    //     debugPrint('Video successfully saved');
+    //     onSave(outputPath);
+    //     outputPath = outputPath;
+    //   } else {
+    //     debugPrint("FFmpeg processing failed.");
+    //     debugPrint('Couldn\'t save the video');
+    //     onSave(null);
+    //   }
+    // });
+
+    await FFmpegKit.execute(
+      command,
+    ).then((session) async {
       final state =
           FFmpegKitConfig.sessionStateToString(await session.getState());
       final returnCode = await session.getReturnCode();
-
-      debugPrint("FFmpeg process exited with state $state and rc $returnCode");
-
+      debugPrint(
+          "FFmpeg process exited with state ${session.getState()} and rc $returnCode");
       if (ReturnCode.isSuccess(returnCode)) {
         debugPrint("FFmpeg processing completed successfully.");
         debugPrint('Video successfully saved');
+        outputPath = outputPath;
         onSave(outputPath);
+        return outputPath;
       } else {
         debugPrint("FFmpeg processing failed.");
         debugPrint('Couldn\'t save the video');
         onSave(null);
       }
+      return outputPath;
     });
-    debugPrint("video output path: $outputPath");
+
     return outputPath;
   }
 
