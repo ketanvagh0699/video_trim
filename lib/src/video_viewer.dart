@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import 'trimmer.dart';
+import '../video_trimmer_2.dart';
 
 class VideoViewer extends StatefulWidget {
   /// The Trimmer instance controlling the data.

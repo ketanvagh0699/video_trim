@@ -2,7 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:video_trimmer/src/utils/trimmer_utils.dart';
+
+import '../../utils/trimmer_utils.dart';
 
 class FixedThumbnailViewer extends StatelessWidget {
   /// The video file from which thumbnails are generated.

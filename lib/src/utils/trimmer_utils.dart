@@ -1,10 +1,8 @@
 import 'dart:developer';
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_video_thumbnail_plus/flutter_video_thumbnail_plus.dart';
 
 /// kTransparentImage image for placeholder
 const List<int> transparentImageData = [
@@ -143,9 +141,9 @@ int _mapQualityToFFmpegScale(int quality) {
 /// An error if the thumbnails could not be generated.
 Stream<List<Uint8List?>> generateThumbnail({
   required String videoPath,
-  required int videoDuration,
+  required int videoDuration, // in milliseconds
   required int numberOfThumbnails,
-  required int quality,
+  required int quality, // 0 to 100
   required VoidCallback onThumbnailLoadingComplete,
 }) async* {
   final double eachPart = videoDuration / numberOfThumbnails;
@@ -155,54 +153,33 @@ Stream<List<Uint8List?>> generateThumbnail({
 
   log('Generating thumbnails for video: $videoPath');
   log('Total thumbnails to generate: $numberOfThumbnails');
-  log('Quality: $quality% (FFmpeg scale: ${_mapQualityToFFmpegScale(quality)})');
+  log('Quality: $quality%');
   log('Generating thumbnails...');
   log('---------------------------------');
 
   try {
-    // Get the temporary directory
-    final tmpDir = await getTemporaryDirectory();
-
-    // Step 2: Generate thumbnails from the downscaled video
     for (int i = 1; i <= numberOfThumbnails; i++) {
       log('Generating thumbnail $i / $numberOfThumbnails');
 
       Uint8List? bytes;
 
-      // Calculate the timestamp for the thumbnail in milliseconds
-      final timestamp = (eachPart * i).toInt();
-      final formattedTimestamp =
-          _formatDuration(Duration(milliseconds: timestamp));
-      final thumbnailPath = "${tmpDir.path}/thumbnail_$i.jpg";
+      final timestamp = (eachPart * i).toInt(); // milliseconds
 
-      // Delete the file if it already exists
-      if (File(thumbnailPath).existsSync()) {
-        await File(thumbnailPath).delete();
-      }
-
-      // Create FFmpeg command to extract a resized, lower-quality thumbnail
-      final command = [
-        '-ss $formattedTimestamp', // Seek to timestamp
-        '-i "$videoPath"', // Input downscaled video
-        '-frames:v 1',
-        '-q:v ${_mapQualityToFFmpegScale(quality)}', // Lower quality
-        '"$thumbnailPath"', // Output file
-      ].join(' ');
-
-      // Execute the FFmpeg command
-      await FFmpegKit.execute(command);
-
-      // Read the generated thumbnail file
-      if (File(thumbnailPath).existsSync()) {
-        bytes = await File(thumbnailPath).readAsBytes();
-      }
+      // Generate thumbnail using flutter_video_thumbnail_plus
+      bytes = await FlutterVideoThumbnailPlus.thumbnailData(
+        video: videoPath,
+        timeMs: timestamp,
+        imageFormat: ImageFormat.jpeg,
+        quality: quality,
+      );
 
       if (bytes != null) {
-        log('Timestamp: $formattedTimestamp | Size: ${(bytes.length / 1000).toStringAsFixed(2)} kB');
+        log('Timestamp: ${_formatDuration(Duration(milliseconds: timestamp))} | Size: ${(bytes.length / 1000).toStringAsFixed(2)} kB');
         log('---------------------------------');
-        lastBytes = bytes; // Cache the last valid thumbnail
+        lastBytes = bytes;
       } else {
-        bytes = lastBytes; // Use the previous thumbnail if current fails
+        log('Thumbnail generation failed at index $i, reusing last valid frame.');
+        bytes = lastBytes;
       }
 
       thumbnailBytes.add(bytes);
@@ -211,8 +188,9 @@ Stream<List<Uint8List?>> generateThumbnail({
         onThumbnailLoadingComplete();
       }
 
-      yield thumbnailBytes;
+      yield List<Uint8List?>.from(thumbnailBytes);
     }
+
     log('Thumbnails generated successfully!');
   } catch (e) {
     log('ERROR: Couldn\'t generate thumbnails: $e');

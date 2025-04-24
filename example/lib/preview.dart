@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class Preview extends StatefulWidget {
-  final String? outputVideoPath;
+  final File? outputVideoFile;
 
-  const Preview(this.outputVideoPath, {Key? key}) : super(key: key);
+  const Preview(this.outputVideoFile, {Key? key}) : super(key: key);
 
   @override
   State<Preview> createState() => _PreviewState();
@@ -19,7 +19,7 @@ class _PreviewState extends State<Preview> {
   void initState() {
     super.initState();
 
-    _controller = VideoPlayerController.file(File(widget.outputVideoPath!))
+    _controller = VideoPlayerController.file(widget.outputVideoFile!)
       ..initialize().then((_) {
         setState(() {});
         _controller.play();
@@ -28,8 +28,8 @@ class _PreviewState extends State<Preview> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

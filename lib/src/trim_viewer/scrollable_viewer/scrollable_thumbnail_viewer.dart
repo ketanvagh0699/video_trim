@@ -2,7 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:video_trimmer/src/utils/trimmer_utils.dart';
+
+import '../../utils/trimmer_utils.dart';
 
 /// For showing the thumbnails generated from the video in a scrollable view,
 /// like a frame by frame preview.

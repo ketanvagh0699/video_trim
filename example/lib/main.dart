@@ -1,7 +1,10 @@
-import 'package:example/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:video_trimmer_2_example/home_page.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

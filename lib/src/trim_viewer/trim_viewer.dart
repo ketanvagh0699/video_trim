@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:video_trimmer/video_trimmer.dart';
 
+import '../../video_trimmer_2.dart';
+import '../utils/duration_style.dart';
 import 'fixed_viewer/fixed_trim_viewer.dart';
 import 'scrollable_viewer/scrollable_trim_viewer.dart';
+import 'trim_editor_properties.dart';
 
 enum ViewerType {
   /// Automatically decide whether to use the

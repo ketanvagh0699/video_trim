@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:example/preview.dart';
 import 'package:flutter/material.dart';
-import 'package:video_trimmer/video_trimmer.dart';
+import 'package:video_trimmer_2/video_trimmer_2.dart';
+
+import 'preview.dart';
 
 class TrimmerView extends StatefulWidget {
   final File file;
@@ -28,29 +29,78 @@ class _TrimmerViewState extends State<TrimmerView> {
   }
 
   void _loadVideo() {
-    _trimmer.loadVideo(videoFile: widget.file);
+    _trimmer.loadVideo(
+      videoFile: widget.file,
+    );
   }
 
-  _saveVideo() {
+  // _saveVideo() async {
+  //   setState(() {
+  //     _progressVisibility = true;
+  //   });
+
+  //   await _trimmer
+  //       .saveTrimmedVideo(
+  //     file: widget.file,
+  //     endMs: _endValue.toInt(),
+  //     startMs: _startValue.toInt(),
+  //   )
+  //       .then(
+  //     (outputPath) {
+  //       debugPrint('OUTPUT PATH: ${outputPath.path}');
+  //       setState(() {
+  //         _progressVisibility = false;
+  //       });
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => Preview(outputPath),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  _saveVideo() async {
+    if (!mounted) return;
     setState(() {
       _progressVisibility = true;
     });
 
-    _trimmer.saveTrimmedVideo(
-      startValue: _startValue,
-      endValue: _endValue,
-      onSave: (outputPath) {
-        setState(() {
-          _progressVisibility = false;
-        });
-        debugPrint('OUTPUT PATH: $outputPath');
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => Preview(outputPath),
-          ),
-        );
-      },
-    );
+    try {
+      final outputFile = await _trimmer.saveTrimmedVideo(
+        file: widget.file,
+        endMs: _endValue.toInt(),
+        startMs: _startValue.toInt(),
+      );
+
+      if (!mounted) return;
+
+      setState(() {
+        _progressVisibility = false;
+      });
+      debugPrint('OUTPUT PATH: $outputFile');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Preview(outputFile),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _progressVisibility = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error trimming video: $e")),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _trimmer.dispose();
+    super.dispose();
   }
 
   @override
