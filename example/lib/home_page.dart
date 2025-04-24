@@ -22,12 +22,42 @@ class HomePage extends StatelessWidget {
               type: FileType.video,
               allowCompression: false,
             );
+            // if (result != null) {
+            //   File file = File(result.files.single.path!);
+            //   Navigator.pushReplacement(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => TrimmerView(file),
+            //     ),
+            //   );
+            //   // Navigator.of(context).push(
+            //   //   MaterialPageRoute(builder: (context) {
+            //   //     return TrimmerView(file);
+            //   //   }),
+            //   // );
+            // }
             if (result != null) {
               File file = File(result.files.single.path!);
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return TrimmerView(file);
-                }),
+
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) =>
+                    const Center(child: CircularProgressIndicator()),
+              );
+
+              // Pre-initialize video if needed (optional optimization)
+              // await somePreInitMethod(file);
+
+              await Future.delayed(const Duration(milliseconds: 300));
+
+              Navigator.of(context).pop();
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TrimmerView(file),
+                ),
               );
             }
           },

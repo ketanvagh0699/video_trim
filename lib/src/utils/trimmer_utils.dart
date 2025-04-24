@@ -84,7 +84,7 @@ final Uint8List kTransparentImage = Uint8List.fromList(transparentImageData);
 /// final duration = Duration(hours: 1, minutes: 30, seconds: 15);
 /// print(_formatDuration(duration)); // Output: 01:30:15
 /// ```
-String _formatDuration(Duration duration) {
+String formatDuration(Duration duration) {
   String twoDigits(int n) => n.toString().padLeft(2, '0');
   final hours = twoDigits(duration.inHours);
   final minutes = twoDigits(duration.inMinutes.remainder(60));
@@ -93,7 +93,7 @@ String _formatDuration(Duration duration) {
 }
 
 // Maps quality (1–100) to FFmpeg scale (-q:v 1–31, lower is better quality)
-int _mapQualityToFFmpegScale(int quality) {
+int mapQualityToFFmpegScale(int quality) {
   if (quality < 1) return 1; // Best quality
   if (quality > 100) return 31; // Worst quality
   return ((101 - quality) / 3.25)
@@ -151,15 +151,15 @@ Stream<List<Uint8List?>> generateThumbnail({
   final List<Uint8List?> thumbnailBytes = [];
   Uint8List? lastBytes;
 
-  log('Generating thumbnails for video: $videoPath');
-  log('Total thumbnails to generate: $numberOfThumbnails');
-  log('Quality: $quality%');
-  log('Generating thumbnails...');
-  log('---------------------------------');
+  // log('Generating thumbnails for video: $videoPath');
+  // log('Total thumbnails to generate: $numberOfThumbnails');
+  // log('Quality: $quality%');
+  // log('Generating thumbnails...');
+  // log('---------------------------------');
 
   try {
     for (int i = 1; i <= numberOfThumbnails; i++) {
-      log('Generating thumbnail $i / $numberOfThumbnails');
+      // log('Generating thumbnail $i / $numberOfThumbnails');
 
       Uint8List? bytes;
 
@@ -174,11 +174,11 @@ Stream<List<Uint8List?>> generateThumbnail({
       );
 
       if (bytes != null) {
-        log('Timestamp: ${_formatDuration(Duration(milliseconds: timestamp))} | Size: ${(bytes.length / 1000).toStringAsFixed(2)} kB');
-        log('---------------------------------');
+        // log('Timestamp: ${_formatDuration(Duration(milliseconds: timestamp))} | Size: ${(bytes.length / 1000).toStringAsFixed(2)} kB');
+        // log('---------------------------------');
         lastBytes = bytes;
       } else {
-        log('Thumbnail generation failed at index $i, reusing last valid frame.');
+        // log('Thumbnail generation failed at index $i, reusing last valid frame.');
         bytes = lastBytes;
       }
 
@@ -191,7 +191,7 @@ Stream<List<Uint8List?>> generateThumbnail({
       yield List<Uint8List?>.from(thumbnailBytes);
     }
 
-    log('Thumbnails generated successfully!');
+    // log('Thumbnails generated successfully!');
   } catch (e) {
     log('ERROR: Couldn\'t generate thumbnails: $e');
   }

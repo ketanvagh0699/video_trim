@@ -34,33 +34,6 @@ class _TrimmerViewState extends State<TrimmerView> {
     );
   }
 
-  // _saveVideo() async {
-  //   setState(() {
-  //     _progressVisibility = true;
-  //   });
-
-  //   await _trimmer
-  //       .saveTrimmedVideo(
-  //     file: widget.file,
-  //     endMs: _endValue.toInt(),
-  //     startMs: _startValue.toInt(),
-  //   )
-  //       .then(
-  //     (outputPath) {
-  //       debugPrint('OUTPUT PATH: ${outputPath.path}');
-  //       setState(() {
-  //         _progressVisibility = false;
-  //       });
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Preview(outputPath),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   _saveVideo() async {
     if (!mounted) return;
     setState(() {
