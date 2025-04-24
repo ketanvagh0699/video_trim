@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:video_trimmer_2_example/home_page.dart';
+import 'package:video_trim_example/home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

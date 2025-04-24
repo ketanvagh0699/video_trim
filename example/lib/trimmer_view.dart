@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:video_trimmer_2/video_trimmer_2.dart';
+import 'package:video_trim/video_trim.dart';
 
 import 'preview.dart';
 

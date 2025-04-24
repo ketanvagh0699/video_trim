@@ -1,6 +1,6 @@
 # kv_video_trim_example
 
-Demonstrates how to use the video_trimmer_2 plugin.
+Demonstrates how to use the video_trim plugin.
 
 ## Getting Started
 

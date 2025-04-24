@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
@@ -77,8 +76,8 @@ class Trimmer {
     required int startMs,
     required int endMs,
   }) async {
-    final originalPath = _videoPlayerController!.dataSource;
-    debugPrint('original path: $originalPath');
+    // final originalPath = _videoPlayerController!.dataSource;
+    // debugPrint('original path: $originalPath');
     // Validate input parameters
     if (!file.existsSync()) {
       throw ArgumentError('Input video file does not exist: ${file.path}');
@@ -97,40 +96,16 @@ class Trimmer {
   }
 
   /// Generate a timestamp for unique file naming
-  String _getTimestamp() {
+  String getTimestamp() {
     return DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
   }
 
   /// Dispose the video controller
   void dispose() {
     _controller.close();
-    // _videoPlayerController?.pause();
-    // _videoPlayerController?.dispose();
-    // _videoPlayerController = null;
   }
 
   getPlatformVersion() {}
-
-  // Future<bool> videoPlaybackControl({
-  //   required double startValue,
-  //   required double endValue,
-  // }) async {
-  //   if (videoPlayerController!.value.isPlaying) {
-  //     await videoPlayerController!.pause();
-  //     return false;
-  //   } else {
-  //     if (videoPlayerController!.value.position.inMilliseconds >=
-  //         endValue.toInt()) {
-  //       await videoPlayerController!
-  //           .seekTo(Duration(milliseconds: startValue.toInt()));
-  //       await videoPlayerController!.play();
-  //       return true;
-  //     } else {
-  //       await videoPlayerController!.play();
-  //       return true;
-  //     }
-  //   }
-  // }
 
   Future<bool> videoPlaybackControl({
     required double startValue,

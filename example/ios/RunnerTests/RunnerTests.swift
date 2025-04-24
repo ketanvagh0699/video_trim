@@ -2,7 +2,7 @@ import Flutter
 import UIKit
 import XCTest
 
-@testable import video_trimmer_2
+@testable import video_trim
 
 // This demonstrates a simple unit test of the Swift portion of this plugin's implementation.
 //

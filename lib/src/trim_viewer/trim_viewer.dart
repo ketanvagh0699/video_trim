@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../video_trimmer_2.dart';
+import '../../video_trim.dart';
 import '../utils/duration_style.dart';
 import 'fixed_viewer/fixed_trim_viewer.dart';
 import 'scrollable_viewer/scrollable_trim_viewer.dart';

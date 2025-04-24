@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 /// Platform interface for video trimming functionality
 class TrimmerPlatform {
-  static const MethodChannel _channel = MethodChannel('video_trimmer_2');
+  static const MethodChannel _channel = MethodChannel('video_trim');
 
   /// Trims a video file between the specified start and end times
   ///

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../video_trimmer_2.dart';
+import '../../../video_trim.dart';
 import '../../utils/duration_style.dart';
 import '../../utils/editor_drag_type.dart';
 import '../trim_area_properties.dart';

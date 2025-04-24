@@ -1,4 +1,4 @@
-# video_trimmer_2
+# video_trim
 
 A Flutter plugin to trim videos on Android and iOS.
 
@@ -17,7 +17,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  video_trimmer_2: ^0.1.1
+  video_trim: ^0.1.1
 ```
 
 ### Android Configuration
@@ -48,14 +48,14 @@ Here's a simple example of how to use the video trimmer:
 
 ```dart
 import 'dart:io';
-import 'package:video_trimmer_2/video_trimmer_2.dart';
+import 'package:video_trim/video_trim.dart';
 
 Future<void> trimMyVideo() async {
   final Trimmer trimmer = Trimmer();
-  
+
   // Assuming you have a File instance of a video
   File inputVideo = File('/path/to/your/video.mp4');
-  
+
   try {
     // Trim video from 2 seconds to 8 seconds
     File trimmedVideo = await trimmer.trimVideo(
@@ -63,7 +63,7 @@ Future<void> trimMyVideo() async {
       startMs: 2000,  // 2 seconds
       endMs: 8000,    // 8 seconds
     );
-    
+
     print('Trimmed video saved to: ${trimmedVideo.path}');
   } catch (e) {
     print('Error trimming video: $e');
@@ -92,7 +92,7 @@ String filename = FileUtils.getFilename('/path/to/video.mp4'); // Returns 'video
 
 ## Issues and Feedback
 
-Please file issues, bugs, or feature requests in the [issue tracker](https://github.com/yourusername/video_trimmer_2/issues).
+Please file issues, bugs, or feature requests in the [issue tracker](https://github.com/yourusername/video_trim/issues).
 
 ## License
 
